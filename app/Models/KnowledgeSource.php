@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 #[Fillable([
     'title',
     'type',
+    'data_category',
     'description',
     'content',
     'file_path',
@@ -23,11 +24,20 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class KnowledgeSource extends Model
 {
     /**
-     * Pengguna yang menambahkan sumber pengetahuan.
+     * Kategori sumber data.
+     */
+    public const CATEGORY_TABEL = 'tabel';
+    public const CATEGORY_PARAGRAF = 'paragraf';
+
+    /**
+     * Pengguna yang menambahkan sumber data.
      */
     public function creator(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'created_by');
+        return $this->belongsTo(
+            User::class,
+            'created_by'
+        );
     }
 
     /**

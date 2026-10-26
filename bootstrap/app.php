@@ -4,35 +4,26 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 
-// Dialihkan ke /tmp saat berjalan di Vercel
-if (isset($_ENV['VERCEL_REGION'])) {
-    $app = Application::configure(basePath: dirname(__DIR__))
-        ->useStoragePath('/tmp/storage')
-        ->withRouting(
-            web: __DIR__.'/../routes/web.php',
-            commands: __DIR__.'/../routes/console.php',
-            health: '/up',
-        )
-        ->withMiddleware(function (Middleware $middleware) {
-            //
-        })
-        ->withExceptions(function (Exceptions $exceptions) {
-            //
-        })->create();
-} else {
-    $app = Application::configure(basePath: dirname(__DIR__))
-        ->useStoragePath(dirname(__DIR__).'/storage')
-        ->withRouting(
-            web: __DIR__.'/../routes/web.php',
-            commands: __DIR__.'/../routes/console.php',
-            health: '/up',
-        )
-        ->withMiddleware(function (Middleware $middleware) {
-            //
-        })
-        ->withExceptions(function (Exceptions $exceptions) {
-            //
-        })->create();
+// 1. Eksekusi konfigurasi dan buat instance aplikasi (cukup 1 kali)
+$app = Application::configure(basePath: dirname(__DIR__))
+    ->withRouting(
+        web: __DIR__.'/../routes/web.php',
+        commands: __DIR__.'/../routes/console.php',
+        health: '/up',
+    )
+    ->withMiddleware(function (Middleware $middleware) {
+        //
+    })
+    ->withExceptions(function (Exceptions $exceptions) {
+        //
+    })->create();
+
+// 2. Timpa direktori storage HANYA setelah instance $app berhasil dibuat
+if (isset($_ENV['VERCEL_REGION']) || env('VERCEL')) {
+    $app->useStoragePath('/tmp/storage');
 }
+
+// Tidak perlu blok 'else' karena jika dijalankan di lokal, 
+// Laravel otomatis menggunakan path bawaannya (dirname(__DIR__).'/storage')
 
 return $app;

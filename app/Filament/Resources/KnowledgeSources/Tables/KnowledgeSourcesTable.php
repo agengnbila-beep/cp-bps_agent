@@ -4,9 +4,8 @@ namespace App\Filament\Resources\KnowledgeSources\Tables;
 
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 class KnowledgeSourcesTable
@@ -16,77 +15,60 @@ class KnowledgeSourcesTable
         return $table
             ->columns([
                 TextColumn::make('title')
-                    ->label('Judul Sumber')
+                    ->label('Sumber Data')
+                    ->description(
+                        fn ($record): string =>
+                            str($record->description ?: 'Tidak ada deskripsi')
+                                ->limit(65)
+                                ->toString()
+                    )
+                    ->weight('bold')
+                    ->color('primary')
                     ->searchable()
                     ->sortable()
                     ->wrap(),
 
                 TextColumn::make('type')
-                    ->label('Jenis Sumber')
+                    ->label('Jenis Data')
                     ->badge()
-                    ->formatStateUsing(fn (string $state): string => match ($state) {
-                        'file' => 'Unggah File',
-                        'text' => 'Input Teks',
-                        default => ucfirst($state),
+                    ->icon(fn (?string $state): string => match ($state) {
+                        'file' => 'heroicon-o-document-chart-bar',
+                        'text' => 'heroicon-o-document-text',
+                        default => 'heroicon-o-document',
                     })
-                    ->color(fn (string $state): string => match ($state) {
+                    ->formatStateUsing(
+                        fn (?string $state): string => match ($state) {
+                            'file' => 'File Tabel',
+                            'text' => 'Paragraf',
+                            default => '-',
+                        }
+                    )
+                    ->color(fn (?string $state): string => match ($state) {
                         'file' => 'info',
                         'text' => 'success',
                         default => 'gray',
                     }),
 
-                TextColumn::make('status')
-                    ->label('Status')
-                    ->badge()
-                    ->formatStateUsing(fn (string $state): string => match ($state) {
-                        'pending' => 'Menunggu Proses',
-                        'processing' => 'Sedang Diproses',
-                        'processed' => 'Selesai',
-                        'failed' => 'Gagal',
-                        default => ucfirst($state),
-                    })
-                    ->color(fn (string $state): string => match ($state) {
-                        'pending' => 'warning',
-                        'processing' => 'info',
-                        'processed' => 'success',
-                        'failed' => 'danger',
-                        default => 'gray',
-                    }),
-
-                TextColumn::make('creator.name')
-                    ->label('Ditambahkan Oleh')
-                    ->placeholder('Pengguna tidak tersedia')
-                    ->toggleable(),
-
                 TextColumn::make('created_at')
-                    ->label('Tanggal Ditambahkan')
+                    ->label('Ditambahkan')
                     ->dateTime('d M Y, H:i')
-                    ->sortable(),
+                    ->sortable()
+                    ->color('gray'),
             ])
-            ->filters([
-                SelectFilter::make('type')
-                    ->label('Jenis Sumber')
-                    ->options([
-                        'text' => 'Input Teks',
-                        'file' => 'Unggah File',
-                    ]),
-
-                SelectFilter::make('status')
-                    ->label('Status Pemrosesan')
-                    ->options([
-                        'pending' => 'Menunggu Proses',
-                        'processing' => 'Sedang Diproses',
-                        'processed' => 'Selesai',
-                        'failed' => 'Gagal',
-                    ]),
-            ])
+            ->filters([])
             ->recordActions([
-                EditAction::make(),
+                ViewAction::make()
+                    ->label('Detail')
+                    ->button()
+                    ->color('primary')
+                    ->icon('heroicon-o-eye'),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->defaultSort('created_at', 'desc')
+            ->striped();
     }
 }

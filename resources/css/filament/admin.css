@@ -50,3 +50,142 @@
         color 150ms ease;
 }
 
+/* =====================================
+   MODERN ADMIN PROFILE - CP BPS
+   ===================================== */
+
+.fi-simple-layout {
+    background:
+        radial-gradient(circle at 15% 10%, #e6f0ff 0%, transparent 35%),
+        linear-gradient(135deg, #f6f9fe, #edf4ff);
+}
+
+.fi-simple-main {
+    border: 1px solid #e0e9f6;
+    border-radius: 20px;
+    box-shadow: 0 18px 50px rgb(23 59 104 / 9%);
+}
+
+.fi-simple-header-heading {
+    color: #173b68;
+    font-size: 1.65rem;
+    font-weight: 750;
+    letter-spacing: -0.03em;
+}
+
+.fi-simple-main .fi-section {
+    border: 1px solid #e3ebf5;
+    border-radius: 14px;
+    box-shadow: none;
+}
+
+.fi-simple-main .fi-section-header-heading {
+    color: #173b68;
+    font-weight: 700;
+}
+
+.fi-simple-main .fi-input-wrp {
+    border-radius: 10px;
+    transition: box-shadow 180ms ease;
+}
+
+.fi-simple-main .fi-input-wrp:focus-within {
+    box-shadow: 0 0 0 3px rgb(23 105 210 / 12%);
+}
+
+.fi-simple-main .fi-btn-color-primary {
+    border-radius: 10px;
+    font-weight: 600;
+    box-shadow: 0 5px 14px rgb(23 105 210 / 16%);
+}
+
+@media (max-width: 640px) {
+    .fi-simple-main {
+        border-radius: 14px;
+        box-shadow: 0 8px 24px rgb(23 59 104 / 7%);
+    }
+}
+
+/* ========================================
+   PROFIL ADMIN - MODERN BLUE DESIGN
+   ======================================== */
+
+/* Latar belakang halaman profil */
+.fi-simple-layout:has(.fi-simple-main .fi-section) {
+    background: linear-gradient(135deg, #e8f1ff, #f4f8ff);
+}
+
+/* Kartu utama profil */
+.fi-simple-main:has(.fi-section) {
+    width: 100%;
+    max-width: 650px;
+    padding: 32px;
+    background: #ffffff;
+    border: 1px solid #dbe8fa;
+    border-radius: 22px;
+    box-shadow: 0 15px 45px rgba(23, 59, 104, 0.1);
+}
+
+/* Judul halaman */
+.fi-simple-main:has(.fi-section) .fi-simple-header-heading {
+    color: #1769d2;
+    font-size: 28px;
+    font-weight: 800;
+}
+
+/* Kartu informasi pribadi dan keamanan */
+.fi-simple-main .fi-section {
+    background: #f8fbff;
+    border: 1px solid #dce9fb;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+/* Header setiap section */
+.fi-simple-main .fi-section-header {
+    background: linear-gradient(110deg, #1769d2, #2454a6);
+    padding: 18px 20px;
+}
+
+/* Judul section */
+.fi-simple-main .fi-section-header-heading {
+    color: #ffffff;
+    font-weight: 700;
+}
+
+/* Deskripsi section */
+.fi-simple-main .fi-section-header-description {
+    color: #e5efff;
+}
+
+/* Ikon pada header */
+.fi-simple-main .fi-section-header-icon {
+    color: #ffffff;
+}
+
+/* Area input */
+.fi-simple-main .fi-section-content {
+    padding: 22px;
+}
+
+/* Tombol simpan */
+.fi-simple-main .fi-btn-color-primary {
+    background: #1769d2;
+    color: #ffffff;
+    border-radius: 10px;
+    padding: 11px 22px;
+    box-shadow: 0 5px 15px rgba(23, 105, 210, 0.22);
+}
+
+/* Efek hover tombol */
+.fi-simple-main .fi-btn-color-primary:hover {
+    background: #1257b3;
+}
+
+/* Tampilan HP */
+@media (max-width: 640px) {
+    .fi-simple-main:has(.fi-section) {
+        padding: 18px;
+        border-radius: 16px;
+    }
+}

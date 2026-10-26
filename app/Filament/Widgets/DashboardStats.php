@@ -3,7 +3,6 @@
 namespace App\Filament\Widgets;
 
 use App\Models\KnowledgeSource;
-use App\Models\User;
 use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 
@@ -13,34 +12,31 @@ class DashboardStats extends StatsOverviewWidget
     {
         $totalSources = KnowledgeSource::count();
 
-        $pendingSources = KnowledgeSource::where('status', 'pending')
-            ->count();
+        $totalTabel = KnowledgeSource::where(
+            'data_category',
+            KnowledgeSource::CATEGORY_TABEL
+        )->count();
 
-        $processedSources = KnowledgeSource::where('status', 'processed')
-            ->count();
-
-        $totalUsers = User::count();
+        $totalParagraf = KnowledgeSource::where(
+            'data_category',
+            KnowledgeSource::CATEGORY_PARAGRAF
+        )->count();
 
         return [
             Stat::make('Total Sumber Data', $totalSources)
                 ->description('Seluruh sumber data terdaftar')
-                ->descriptionIcon('heroicon-o-document-text')
+                ->descriptionIcon('heroicon-o-circle-stack')
                 ->color('primary'),
 
-            Stat::make('Menunggu Proses', $pendingSources)
-                ->description('Sumber data yang menunggu')
-                ->descriptionIcon('heroicon-o-clock')
-                ->color('warning'),
-
-            Stat::make('Selesai Diproses', $processedSources)
-                ->description('Sumber data berhasil diproses')
-                ->descriptionIcon('heroicon-o-check-circle')
-                ->color('success'),
-
-            Stat::make('Total Pengguna', $totalUsers)
-                ->description('Pengguna terdaftar di sistem')
-                ->descriptionIcon('heroicon-o-users')
+            Stat::make('Data Tabel', $totalTabel)
+                ->description('File CSV dan Excel')
+                ->descriptionIcon('heroicon-o-table-cells')
                 ->color('info'),
+
+            Stat::make('Data Paragraf', $totalParagraf)
+                ->description('Sumber data berbentuk teks')
+                ->descriptionIcon('heroicon-o-document-text')
+                ->color('success'),
         ];
     }
 }
