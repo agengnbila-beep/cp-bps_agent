@@ -2,8 +2,10 @@
 
 namespace App\Filament\Widgets;
 
-use App\Models\KnowledgeSource;
-use App\Models\User;
+use App\Models\Indikator;
+use App\Models\Wilayah;
+use App\Models\DataIndikator;
+use App\Models\PertanyaanTakTerjawab;
 use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 
@@ -11,36 +13,31 @@ class DashboardStats extends StatsOverviewWidget
 {
     protected function getStats(): array
     {
-        $totalSources = KnowledgeSource::count();
-
-        $pendingSources = KnowledgeSource::where('status', 'pending')
-            ->count();
-
-        $processedSources = KnowledgeSource::where('status', 'processed')
-            ->count();
-
-        $totalUsers = User::count();
+        $totalIndikator = Indikator::count();
+        $totalWilayah = Wilayah::count();
+        $totalData = DataIndikator::count();
+        $totalTidakTerjawab = PertanyaanTakTerjawab::count();
 
         return [
-            Stat::make('Total Sumber Data', $totalSources)
-                ->description('Seluruh sumber data terdaftar')
-                ->descriptionIcon('heroicon-o-document-text')
+            Stat::make('Total Indikator', $totalIndikator)
+                ->description('Indikator statistik terdaftar')
+                ->descriptionIcon('heroicon-o-list-bullet')
                 ->color('primary'),
 
-            Stat::make('Menunggu Proses', $pendingSources)
-                ->description('Sumber data yang menunggu')
-                ->descriptionIcon('heroicon-o-clock')
-                ->color('warning'),
+            Stat::make('Total Wilayah', $totalWilayah)
+                ->description('Wilayah administratif')
+                ->descriptionIcon('heroicon-o-map')
+                ->color('info'),
 
-            Stat::make('Selesai Diproses', $processedSources)
-                ->description('Sumber data berhasil diproses')
-                ->descriptionIcon('heroicon-o-check-circle')
+            Stat::make('Total Data', $totalData)
+                ->description('Baris data statistik')
+                ->descriptionIcon('heroicon-o-table-cells')
                 ->color('success'),
 
-            Stat::make('Total Pengguna', $totalUsers)
-                ->description('Pengguna terdaftar di sistem')
-                ->descriptionIcon('heroicon-o-users')
-                ->color('info'),
+            Stat::make('Pertanyaan Tak Terjawab', $totalTidakTerjawab)
+                ->description('Pertanyaan dari WhatsApp')
+                ->descriptionIcon('heroicon-o-chat-bubble-left-right')
+                ->color('danger'),
         ];
     }
 }

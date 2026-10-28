@@ -27,7 +27,7 @@ class KnowledgeSourceResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCircleStack;
     
     protected static ?string $recordTitleAttribute = 'title';
-
+    protected static bool $shouldRegisterNavigation = false;
     public static function form(Schema $schema): Schema
     {
         return KnowledgeSourceForm::configure($schema);
