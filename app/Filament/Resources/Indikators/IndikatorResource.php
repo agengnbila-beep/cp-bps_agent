@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Indikators;
 
 use App\Filament\Resources\Indikators\Pages;
 use App\Models\Indikator;
+use App\Models\DataIndikator;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
